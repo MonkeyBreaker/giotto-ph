@@ -84,8 +84,8 @@ public:
     }
 };
 #elif defined(USE_TRIVIAL_CONCURRENT_HASHMAP)
-#include <atomic_ref.hpp>
-#include <trivial_concurrent_hash_map.hpp>
+#include <mrzv/atomic_ref.hpp>
+#include <mrzv/trivial_concurrent_hash_map.hpp>
 template <class Key, class T, class H, class E>
 class hash_map : public mrzv::trivial_concurrent_hash_map<Key, T, H, E>
 {
