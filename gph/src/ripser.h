@@ -1378,9 +1378,21 @@ public:
         }
     }
 
+    void print_barcodes(int dim = -1) {
+        if (dim == -1) {
+            size_t dim_ = 0;
+            for (const auto& barcodes_dim : births_and_deaths_by_dim) {
+                std::cout << "barcodes in dim " << dim_++ << " : " << barcodes_dim.size()  / 2<< "\n";
+                for (size_t i = 0; i < barcodes_dim.size(); i+=2)
+                    std::cout << "[" << barcodes_dim[i] << "; " << barcodes_dim[i+1] << ")\n";
+            }
+            std::cout << "\n";
+        }
+    }
+
     std::vector<diameter_index_t> get_edges();
 
-    void compute_barcodes()
+    ripser& compute_barcodes()
     {
         std::vector<diameter_index_t> simplices, columns_to_reduce;
 
@@ -1403,6 +1415,8 @@ public:
                 assemble_columns_to_reduce(simplices, columns_to_reduce,
                                            pivot_column_index, dim + 1);
         }
+
+        return *this;
     }
 };
 
