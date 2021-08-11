@@ -83,6 +83,17 @@ public:
     {
     }
 };
+#elif defined(USE_TRIVIAL_CONCURRENT_HASHMAP)
+#include <atomic_ref.hpp>
+#include <trivial_concurrent_hash_map.hpp>
+template <class Key, class T, class H, class E>
+class hash_map : public mrzv::trivial_concurrent_hash_map<Key, T, H, E>
+{
+public:
+    hash_map() {}
+    hash_map(size_t size) { this->reserve(size); }
+    void quiescent(void) {}
+};
 #endif
 
 typedef float value_t;
