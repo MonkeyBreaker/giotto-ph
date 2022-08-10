@@ -186,6 +186,7 @@ PACK(struct entry_t {
     {
         return entry_t(index - idx, coefficient);
     }
+    explicit operator bool() const { return index; }
 });
 
 static_assert(sizeof(entry_t) == sizeof(index_t),
@@ -419,30 +420,6 @@ struct sparse_distance_matrix {
     }
 
     size_t size() const { return neighbors.size(); }
-};
-
-struct euclidean_distance_matrix {
-    std::vector<std::vector<value_t>> points;
-
-    euclidean_distance_matrix(std::vector<std::vector<value_t>>&& _points)
-        : points(std::move(_points))
-    {
-        for (auto p : points) {
-            assert(p.size() == points.front().size());
-        }
-    }
-
-    value_t operator()(const index_t i, const index_t j) const
-    {
-        assert(i < points.size());
-        assert(j < points.size());
-        return std::sqrt(std::inner_product(
-            points[i].begin(), points[i].end(), points[j].begin(), value_t(),
-            std::plus<value_t>(),
-            [](value_t u, value_t v) { return (u - v) * (u - v); }));
-    }
-
-    size_t size() const { return points.size(); }
 };
 
 class union_find
